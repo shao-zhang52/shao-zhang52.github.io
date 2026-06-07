@@ -1,57 +1,78 @@
-const dict = {
-    zh: { home: "首页", game: "小游戏", changelog: "更新日志", community: "社区", search: "搜索", placeholder: "搜索内容..." },
-    en: { home: "Home", game: "Games", changelog: "Changelog", community: "Community", search: "Search", placeholder: "Search..." },
-    es: { home: "Inicio", game: "Juegos", changelog: "Registro", community: "Comunidad", search: "Buscar", placeholder: "Buscar..." },
-    fr: { home: "Accueil", game: "Jeux", changelog: "Journal", community: "Communauté", search: "Rechercher", placeholder: "Rechercher..." },
-    de: { home: "Start", game: "Spiele", changelog: "Protokoll", community: "Community", search: "Suche", placeholder: "Suche..." },
-    ja: { home: "ホーム", game: "ゲーム", changelog: "更新履歴", community: "コミュニティ", search: "検索", placeholder: "検索..." },
-    ru: { home: "Главная", game: "Игры", changelog: "Журнал", community: "Сообщество", search: "Поиск", placeholder: "Поиск..." },
-    pt: { home: "Início", game: "Jogos", changelog: "Log", community: "Comunidade", search: "Pesquisar", placeholder: "Pesquisar..." },
-    ko: { home: "홈", game: "게임", changelog: "로그", community: "커뮤니티", search: "검색", placeholder: "검색..." },
-    ar: { home: "الرئيسية", game: "ألعاب", changelog: "السجل", community: "مجتمع", search: "بحث", placeholder: "بحث..." }
-};
-
-// 确保函数绑定在 window 上，这样 HTML 里的 onclick 才能找到它们
-window.applyLang = function(lang) {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if(dict[lang] && dict[lang][key]) el.innerText = dict[lang][key];
-    });
-    const input = document.getElementById('search-input');
-    if(input) input.placeholder = dict[lang].placeholder;
-};
-
-window.setLang = function(lang) {
-    console.log("正在切换语言为:", lang); // 如果控制台没打印，说明函数没触发
-    localStorage.setItem('user-lang', lang);
-    window.applyLang(lang);
-    window.patchLinks(lang);
-    window.toggleLangMenu();
-};
-
-window.patchLinks = function(lang) {
-    document.querySelectorAll('a').forEach(link => {
-        let href = link.getAttribute('href');
-        if (href && !href.startsWith('http') && !href.startsWith('#')) {
-            let baseUrl = href.split('?')[0];
-            link.setAttribute('href', baseUrl + '?lang=' + lang);
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>ZZ H 的主页</title>
+    <script src="master.js"></script>
+    <style>
+        body { margin: 0; background-color: #050505; background-image: radial-gradient(#222 1px, transparent 1px); background-size: 30px 30px; color: #fff; font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
+        nav { display: flex; align-items: center; padding: 15px 50px; border-bottom: 1px solid #333; background: #0a0a0a; position: relative; }
+        .logo { font-weight: bold; font-size: 1.5rem; margin-right: 40px; }
+        .nav-links { display: flex; gap: 30px; flex-grow: 1; }
+        .nav-links a { color: #ccc; text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        .search-container { display: flex; gap: 10px; align-items: center; }
+        .engine-select { background: #111; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 8px; }
+        .search-box input { padding: 8px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; }
+        .search-box button { padding: 8px 15px; background: #444; border: none; color: #fff; cursor: pointer; border-radius: 4px; }
+        .lang-container { position: relative; margin-left: 20px; }
+        .lang-btn { cursor: pointer; color: #fff; background: none; border: 1px solid #444; padding: 5px 10px; border-radius: 4px; }
+        .lang-menu { display: none; position: absolute; right: 0; top: 40px; background: #1a1a1a; border: 1px solid #333; padding: 10px; border-radius: 4px; z-index: 10; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .lang-menu a { display: block; padding: 5px 10px; color: #fff; text-decoration: none; cursor: pointer; white-space: nowrap; }
+        .lang-menu a:hover { background: #333; }
+        .dashboard { padding: 100px 50px; text-align: center; }
+        .status-box { border: 1px solid #333; padding: 40px; display: inline-block; border-radius: 8px; background: rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">ZZ H</div>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" data-i18n="home">首页</a>
+            <a href="games.html" data-i18n="game">小游戏</a>
+            <a href="changelog.html" data-i18n="changelog">更新日志</a>
+            <a href="working.html" data-i18n="community">社区</a>
+        </div>
+        <div class="search-container">
+            <select class="engine-select" id="engine">
+                <option value="https://www.google.com/search">Google</option>
+                <option value="https://www.bing.com/search">Bing</option>
+                <option value="https://duckduckgo.com/">DuckDuckGo</option>
+                <option value="https://github.com/search">GitHub</option>
+                <option value="https://www.perplexity.ai/search">Perplexity AI</option>
+                <option value="https://search.marginalia.nu/search">Marginalia</option>
+            </select>
+            <form action="https://www.google.com/search" method="GET" id="search-form" class="search-box">
+                <input type="text" name="q" placeholder="搜索..." id="search-input">
+                <button type="submit" data-i18n="search">搜索</button>
+            </form>
+        </div>
+        <div class="lang-container">
+            <button class="lang-btn" onclick="toggleLangMenu()">Language</button>
+            <div class="lang-menu" id="lang-menu" style="display:none;">
+                <a href="?lang=zh">中文</a><a href="?lang=en">English</a>
+                <a href="?lang=es">Español</a><a href="?lang=fr">Français</a>
+                <a href="?lang=de">Deutsch</a><a href="?lang=ja">日本語</a>
+                <a href="?lang=ru">Русский</a><a href="?lang=pt">Português</a>
+                <a href="?lang=ko">한국어</a><a href="?lang=ar">العربية</a>
+            </div>
+        </div>
+    </nav>
+    <div class="dashboard">
+        <div class="status-box">
+            <h1>ZZ H Lab</h1>
+            <p>Version: v1.2.0</p>
+            <p>系统状态: 运行正常 | 正在持续构建中...</p>
+        </div>
+    </div>
+    <script>
+        function toggleLangMenu() {
+            const menu = document.getElementById('lang-menu');
+            menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
         }
-    });
-};
-
-window.toggleLangMenu = function() {
-    const menu = document.getElementById('lang-menu');
-    if (menu) {
-        menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
-    } else {
-        console.error("找不到 lang-menu 元素！");
-    }
-};
-
-window.addEventListener('load', () => {
-    const params = new URLSearchParams(window.location.search);
-    const lang = params.get('lang') || localStorage.getItem('user-lang') || 'zh';
-    window.applyLang(lang);
-    window.patchLinks(lang);
-    console.log("管家已就绪，当前语言:", lang);
-});
+        document.getElementById('engine').onchange = function() {
+            document.getElementById('search-form').action = this.value;
+        };
+    </script>
+</body>
+</html>
