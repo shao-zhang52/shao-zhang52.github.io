@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -48,6 +47,11 @@
             <select class="engine-select" id="engine">
                 <option value="https://www.google.com/search">Google</option>
                 <option value="https://www.bing.com/search">Bing</option>
+                <option value="https://duckduckgo.com/">DuckDuckGo</option>
+                <option value="https://yandex.com/search/">Yandex</option>
+                <option value="https://github.com/search">GitHub</option>
+                <option value="https://stackoverflow.com/search">Stack Overflow</option>
+                <option value="https://www.wolframalpha.com/input/">WolframAlpha</option>
             </select>
             <form action="https://www.google.com/search" method="GET" id="search-form" class="search-box">
                 <input type="text" name="q" placeholder="搜索内容..." id="search-input">
@@ -73,12 +77,10 @@
     </div>
 
     <script>
-        // 引擎切换逻辑：轻量，不依赖任何文件
         document.getElementById('engine').onchange = function() {
             document.getElementById('search-form').action = this.value;
         };
 
-        // 菜单开合逻辑：简单、纯粹
         function toggleLangMenu() {
             const menu = document.getElementById('lang-menu');
             menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
