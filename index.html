@@ -74,43 +74,15 @@
     </div>
 
     <script>
-        const dict = {
-            zh: { home: "首页", game: "小游戏", changelog: "更新日志", community: "社区", search: "搜索", placeholder: "搜索内容..." },
-            en: { home: "Home", game: "Games", changelog: "Changelog", community: "Community", search: "Search", placeholder: "Search..." },
-            es: { home: "Inicio", game: "Juegos", changelog: "Registro", community: "Comunidad", search: "Buscar", placeholder: "Buscar..." },
-            fr: { home: "Accueil", game: "Jeux", changelog: "Journal", community: "Communauté", search: "Rechercher", placeholder: "Rechercher..." },
-            de: { home: "Start", game: "Spiele", changelog: "Protokoll", community: "Community", search: "Suche", placeholder: "Suche..." },
-            ja: { home: "ホーム", game: "ゲーム", changelog: "更新履歴", community: "コミュニティ", search: "検索", placeholder: "検索..." },
-            ru: { home: "Главная", game: "Игры", changelog: "Журнал", community: "Сообщество", search: "Поиск", placeholder: "Поиск..." },
-            pt: { home: "Início", game: "Jogos", changelog: "Log", community: "Comunidade", search: "Pesquisar", placeholder: "Pesquisar..." },
-            ko: { home: "홈", game: "게임", changelog: "로그", community: "커뮤니티", search: "검색", placeholder: "검색..." },
-            ar: { home: "الرئيسية", game: "ألعاب", changelog: "السجل", community: "مجتمع", search: "بحث", placeholder: "بحث..." }
-        };
-
-        function setLang(lang) {
-            // 翻译当前页内容
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(dict[lang][key]) el.innerText = dict[lang][key];
-            });
-            document.getElementById('search-input').placeholder = dict[lang].placeholder;
-            
-            // 关键修改：调用管家的补丁逻辑，确保跳转参数同步
-            if (typeof patchLinks === 'function') {
-                patchLinks(lang);
-            }
-            
-            toggleLangMenu();
+        // 首页仅保留 UI 操作函数，翻译和参数逻辑全部由 master.js 接管
+        function toggleLangMenu() {
+            const menu = document.getElementById('lang-menu');
+            menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
         }
 
         document.getElementById('engine').onchange = function() {
             document.getElementById('search-form').action = this.value;
         };
-
-        function toggleLangMenu() {
-            const menu = document.getElementById('lang-menu');
-            menu.style.display = menu.style.display === 'grid' ? 'none' : 'grid';
-        }
     </script>
 </body>
 </html>
