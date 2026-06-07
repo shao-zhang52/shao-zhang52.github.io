@@ -21,7 +21,6 @@
         .search-box input { padding: 8px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; }
         .search-box button { padding: 8px 15px; background: #444; border: none; color: #fff; cursor: pointer; border-radius: 4px; }
         
-        /* 语言菜单 CSS */
         .lang-container { position: relative; margin-left: 20px; }
         .lang-btn { cursor: pointer; color: #fff; background: none; border: 1px solid #444; padding: 5px 10px; border-radius: 4px; }
         .lang-menu { display: none; position: absolute; right: 0; top: 40px; background: #1a1a1a; border: 1px solid #333; padding: 10px; border-radius: 4px; z-index: 10; }
@@ -37,10 +36,10 @@
     <nav>
         <div class="logo">ZZ H</div>
         <div class="nav-links">
-            <a href="index.html">首页</a>
-            <a href="minesweeper.html">小游戏</a>
-            <a href="changelog.html">更新日志</a>
-            <a href="working.html">社区</a>
+            <a href="index.html" data-i18n="home">首页</a>
+            <a href="minesweeper.html" data-i18n="game">小游戏</a>
+            <a href="changelog.html" data-i18n="changelog">更新日志</a>
+            <a href="working.html" data-i18n="community">社区</a>
         </div>
         
         <div class="search-container">
@@ -55,15 +54,15 @@
             </select>
             <form action="https://www.google.com/search" method="GET" id="search-form" class="search-box">
                 <input type="text" name="q" placeholder="搜索内容..." id="search-input">
-                <button type="submit">搜索</button>
+                <button type="submit" data-i18n="search">搜索</button>
             </form>
         </div>
 
         <div class="lang-container">
             <button class="lang-btn" onclick="toggleLangMenu()">Language</button>
             <div class="lang-menu" id="lang-menu">
-                <div onclick="window.location.href='index.html'">中文</div>
-                <div onclick="window.location.href='working.html'">English</div>
+                <div onclick="setLang('zh')">中文</div>
+                <div onclick="setLang('en')">English</div>
             </div>
         </div>
     </nav>
@@ -77,6 +76,19 @@
     </div>
 
     <script>
+        const dict = {
+            zh: { home: "首页", game: "小游戏", changelog: "更新日志", community: "社区", search: "搜索", placeholder: "搜索内容..." },
+            en: { home: "Home", game: "Games", changelog: "Changelog", community: "Community", search: "Search", placeholder: "Search..." }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.innerText = dict[lang][el.getAttribute('data-i18n')];
+            });
+            document.getElementById('search-input').placeholder = dict[lang].placeholder;
+            toggleLangMenu();
+        }
+
         document.getElementById('engine').onchange = function() {
             document.getElementById('search-form').action = this.value;
         };
