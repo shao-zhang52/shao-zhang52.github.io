@@ -1,43 +1,37 @@
 <!DOCTYPE html>
-
 <html lang="zh">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>zh</title>
-
+    <title>ZZ H 的主页</title>
     <style>
-
-        body { background-color: #000; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-
-        .search-box { margin-bottom: 20px; }
-
-        input { padding: 10px; width: 250px; background: #222; border: 1px solid #444; color: #fff; }
-
-        button { padding: 10px; background: #444; border: none; color: #fff; }
-
+        body { margin: 0; background-color: #000; color: #fff; font-family: sans-serif; }
+        
+        /* 导航栏布局 */
+        nav { display: flex; align-items: center; padding: 20px 50px; border-bottom: 1px solid #333; }
+        .logo { font-weight: bold; font-size: 1.5rem; margin-right: 40px; }
+        .nav-links { display: flex; gap: 30px; flex-grow: 1; }
+        .nav-links a { color: #fff; text-decoration: none; font-size: 1rem; }
+        
+        /* 搜索框样式 */
+        .search-box input { padding: 8px; background: #111; border: 1px solid #444; color: #fff; border-radius: 4px; }
+        .search-box button { padding: 8px 15px; background: #444; border: none; color: #fff; cursor: pointer; border-radius: 4px; }
     </style>
-
 </head>
-
 <body>
 
-    <h1>zh 欢迎</h1>
-
-    <div class="search-box">
-
-        <form action="https://www.google.com/search" method="GET">
-
-            <input type="text" name="q" placeholder="搜索一下...">
-
-            <button type="submit">搜</button>
-
-        </form>
-
-    </div>
+    <nav>
+        <div class="logo">ZZ H</div>
+        <div class="nav-links">
+            <a href="#">首页</a>
+            <a href="#">主页</a>
+        </div>
+        <div class="search-box">
+            <form action="https://www.google.com/search" method="GET">
+                <input type="text" name="q" placeholder="Google 搜索...">
+                <button type="submit">搜</button>
+            </form>
+        </div>
+    </nav>
 
 </body>
-
 </html>
