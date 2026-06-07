@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>扫雷 - ZZ H Lab</title>
+    <style>
+        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        a { color: #aaa; text-decoration: none; margin-bottom: 20px; border: 1px solid #333; padding: 5px 10px; border-radius: 4px; }
+        a:hover { color: #fff; border-color: #fff; }
+        #board { display: grid; gap: 2px; margin-top: 10px; }
+        .cell { width: 30px; height: 30px; background: #333; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
+        .cell.revealed { background: #111; border-color: #222; }
+    </style>
+</head>
+<body>
+    <a href="../index.html">← 返回首页</a>
+    <h1>扫雷 (建设中)</h1>
+    <div id="board"></div>
+    <script>
+        const board = document.getElementById('board');
+        board.style.gridTemplateColumns = 'repeat(10, 30px)';
+        for(let i=0; i<100; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.onclick = () => cell.classList.add('revealed');
+            board.appendChild(cell);
+        }
+    </script>
+</body>
+</html>
