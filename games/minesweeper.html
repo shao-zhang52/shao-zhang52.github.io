@@ -15,11 +15,14 @@
     </style>
 </head>
 <body>
-    <h1 data-i18n="game">小游戏</h1> <div id="board" oncontextmenu="return false;"></div>
+    <h1 data-i18n="game">小游戏</h1> 
+    <div id="board" oncontextmenu="return false;"></div>
     <p>左键点击开格，右键点击插旗 (🚩)</p>
-    <a href="../games.html">← 返回小游戏</a>
+    
+    <a href="../games.html" data-i18n="back_home">← 返回小游戏</a>
 
     <script>
+        // 游戏逻辑保持不变
         const size = 10, mineCount = 10;
         let board = [], revealed = [], flagged = [];
 
@@ -33,7 +36,6 @@
                 let r = Math.floor(Math.random()*size), c = Math.floor(Math.random()*size);
                 if(board[r][c] !== 'mine') { board[r][c] = 'mine'; placed++; }
             }
-            // 计算周围数字
             for(let r=0; r<size; r++) for(let c=0; c<size; c++) {
                 if(board[r][c] === 'mine') continue;
                 let count = 0;
