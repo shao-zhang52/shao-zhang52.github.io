@@ -4,27 +4,56 @@
     <meta charset="UTF-8">
     <title>扫雷 - ZZ H Lab</title>
     <style>
-        body { background: #050505; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        a { color: #aaa; text-decoration: none; margin-bottom: 20px; border: 1px solid #333; padding: 5px 10px; border-radius: 4px; }
-        a:hover { color: #fff; border-color: #fff; }
-        #board { display: grid; gap: 2px; margin-top: 10px; }
-        .cell { width: 30px; height: 30px; background: #333; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
-        .cell.revealed { background: #111; border-color: #222; }
+        body { background: #050505; color: #fff; text-align: center; font-family: sans-serif; }
+        #board { display: inline-block; border: 5px solid #333; margin-top: 20px; }
+        .row { display: flex; }
+        .cell { width: 30px; height: 30px; border: 1px solid #444; background: #222; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .cell.revealed { background: #444; }
+        .cell.mine { background: red; }
     </style>
 </head>
 <body>
-    <a href="../index.html">← 返回首页</a>
-    <h1>扫雷 (建设中)</h1>
+    <h1>扫雷</h1>
     <div id="board"></div>
+    <p>点击方块，雷区已重置。祝你好运！</p>
+    <a href="../games.html">← 返回小游戏</a>
+
     <script>
-        const board = document.getElementById('board');
-        board.style.gridTemplateColumns = 'repeat(10, 30px)';
-        for(let i=0; i<100; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            cell.onclick = () => cell.classList.add('revealed');
-            board.appendChild(cell);
+        const size = 10, mineCount = 10;
+        let board = [];
+        const boardEl = document.getElementById('board');
+
+        // 初始化
+        function init() {
+            board = Array(size).fill().map(() => Array(size).fill(0));
+            let placed = 0;
+            while(placed < mineCount) {
+                let r = Math.floor(Math.random()*size), c = Math.floor(Math.random()*size);
+                if(board[r][c] !== 'mine') { board[r][c] = 'mine'; placed++; }
+            }
+            render();
         }
+
+        function render() {
+            boardEl.innerHTML = '';
+            for(let r=0; r<size; r++) {
+                let rowEl = document.createElement('div'); rowEl.className = 'row';
+                for(let c=0; c<size; c++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.onclick = () => reveal(r, c, cell);
+                    rowEl.appendChild(cell);
+                }
+                boardEl.appendChild(rowEl);
+            }
+        }
+
+        function reveal(r, c, el) {
+            if(board[r][c] === 'mine') { el.innerText = '💣'; el.className = 'cell mine'; alert('你炸了！'); init(); return; }
+            el.className = 'cell revealed';
+            el.innerText = '✓'; // 这里可以扩展显示周围雷数
+        }
+        init();
     </script>
 </body>
 </html>
