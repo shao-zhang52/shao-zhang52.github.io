@@ -5,23 +5,40 @@
     <title>小游戏 - ZZ H Lab</title>
     <style>
         body { background: #050505; color: #fff; font-family: sans-serif; padding: 50px; }
-        .card { border: 1px solid #333; padding: 20px; border-radius: 8px; width: 150px; text-align: center; margin: 10px; display: inline-block; }
-        a { color: #fff; text-decoration: none; }
+        .card { border: 1px solid #333; padding: 20px; border-radius: 8px; width: 150px; text-align: center; margin: 10px; display: inline-block; transition: 0.3s; }
+        .card:hover { background: #1a1a1a; border-color: #555; }
+        a { color: #fff; text-decoration: none; display: block; }
         #game-list { margin-top: 20px; }
     </style>
 </head>
 <body>
     <a href="index.html">← 返回首页</a>
-    <h1>小游戏</h1>
+    <h1>小游戏中心 (ZZ H Lab)</h1>
     
     <div id="game-list"></div>
 
     <script>
-        // 未来你只需要维护这个列表，加游戏就在这里加一行，HTML 代码永远不用动
         const games = [
-            { name: "扫雷", url: "games/minesweeper.html" },
-            // 下次加游戏，比如贪吃蛇，直接在这加一行即可：
-            // { name: "贪吃蛇", url: "games/snake.html" }
+            { name: "俄罗斯方块", url: "games/tetris.html" },
+            { name: "2048", url: "games/2048.html" },
+            { name: "贪吃蛇", url: "games/snake.html" },
+            { name: "推箱子", url: "games/sokoban.html" },
+            { name: "吃豆人", url: "games/pacman.html" },
+            { name: "五子棋", url: "games/gomoku.html" },
+            { name: "贪吃蛇竞技", url: "games/slither.html" },
+            { name: "翻牌记忆", url: "games/memory.html" },
+            { name: "黑白棋", url: "games/othello.html" },
+            { name: "打砖块", url: "games/breakout.html" },
+            { name: "数独", url: "games/sudoku.html" },
+            { name: "拼图游戏", url: "games/puzzle.html" },
+            { name: "地牢探险", url: "games/roguelike.html" },
+            { name: "太空射击", url: "games/space.html" },
+            { name: "跳跃恐龙", url: "games/dino.html" },
+            { name: "打字练习", url: "games/typing.html" },
+            { name: "连连看", url: "games/link.html" },
+            { name: "生命游戏", url: "games/life.html" },
+            { name: "超级马里奥", url: "games/mario.html" },
+            { name: "魂斗罗", url: "games/contra.html" }
         ];
 
         const container = document.getElementById('game-list');
