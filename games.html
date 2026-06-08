@@ -5,15 +5,33 @@
     <title>小游戏 - ZZ H Lab</title>
     <style>
         body { background: #050505; color: #fff; font-family: sans-serif; padding: 50px; }
-        .card { border: 1px solid #333; padding: 20px; border-radius: 8px; width: 150px; text-align: center; }
+        .card { border: 1px solid #333; padding: 20px; border-radius: 8px; width: 150px; text-align: center; margin: 10px; display: inline-block; }
         a { color: #fff; text-decoration: none; }
+        #game-list { margin-top: 20px; }
     </style>
 </head>
 <body>
     <a href="index.html">← 返回首页</a>
     <h1>小游戏</h1>
-    <div class="card">
-        <a href="games/minesweeper.html">扫雷</a>
-    </div>
+    
+    <div id="game-list"></div>
+
+    <script>
+        // 未来你只需要维护这个列表，加游戏就在这里加一行，HTML 代码永远不用动
+        const games = [
+            { name: "扫雷", url: "games/minesweeper.html" },
+            // 下次加游戏，比如贪吃蛇，直接在这加一行即可：
+            // { name: "贪吃蛇", url: "games/snake.html" }
+        ];
+
+        const container = document.getElementById('game-list');
+        
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<a href="${game.url}">${game.name}</a>`;
+            container.appendChild(card);
+        });
+    </script>
 </body>
 </html>
